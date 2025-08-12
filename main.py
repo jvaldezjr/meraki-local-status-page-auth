@@ -53,3 +53,7 @@ for org_id, networks in org_networks.items():
                 }
             })
 
+        # Submit the action batch as unconfirmed
+        response = dashboard.organizations.createOrganizationActionBatch(org_id, actions=actions, confirmed=False)
+        logging.debug(f"Prepared UNCONFIRMED action batch for org {org_id} with {len(actions)} networks. Response: {response}")
+
