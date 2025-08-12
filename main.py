@@ -17,3 +17,17 @@ organizations = dashboard.organizations.getOrganizations()
 
 # Print organizations in a debug message
 logging.debug(f"Organizations accessible to the user: {organizations}")
+
+
+# Store networks by organization id
+org_networks = {}
+for org in organizations:
+    org_id = org['id']
+    networks = dashboard.organizations.getOrganizationNetworks(org_id)
+    org_networks[org_id] = {
+        'organization': org,
+        'networks': networks
+    }
+    logging.debug(f"Networks for organization {org['name']}: {networks}")
+
+# Now org_networks is a dict keyed by org id, with organization and networks info for batching and later use
