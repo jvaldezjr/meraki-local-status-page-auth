@@ -24,10 +24,7 @@ org_networks = {}
 for org in organizations:
     org_id = org['id']
     networks = dashboard.organizations.getOrganizationNetworks(org_id)
-    org_networks[org_id] = {
-        'organization': org,
-        'networks': networks
-    }
+    org_networks[org_id] = networks
     logging.debug(f"Networks for organization {org['name']}: {networks}")
 
 # Now org_networks is a dict keyed by org id, with organization and networks info for batching and later use
