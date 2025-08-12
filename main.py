@@ -10,7 +10,11 @@ API_KEY = os.getenv('MERAKI_DASHBOARD_API_KEY')
 if not API_KEY:
 	raise EnvironmentError("MERAKI_DASHBOARD_API_KEY environment variable not set.")
 
-dashboard = meraki.DashboardAPI(API_KEY)
+dashboard = meraki.DashboardAPI(
+    API_KEY,
+    output_log=False,
+    log_path=None
+)
 
 # Get organizations the user has access to
 organizations = dashboard.organizations.getOrganizations()
