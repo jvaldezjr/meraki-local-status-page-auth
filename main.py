@@ -57,3 +57,15 @@ for org_id, networks in org_networks.items():
         response = dashboard.organizations.createOrganizationActionBatch(org_id, actions=actions, confirmed=False)
         logging.debug(f"Prepared UNCONFIRMED action batch for org {org_id} with {len(actions)} networks. Response: {response}")
 
+        # Pause for user confirmation before deleting
+        input(f"Press Enter to delete the unconfirmed action batch for org {org_id}...")
+
+        # Cleanup: delete the unconfirmed action batch
+        batch_id = response.get('id')
+        if batch_id:
+            del_response = dashboard.organizations.deleteOrganizationActionBatch(org_id, batch_id)
+            logging.debug(f"Deleted unconfirmed action batch {batch_id} for org {org_id}. Response: {del_response}")
+
+        # Debug: confirm action batches were deleted
+        final_action_batches = dashboard.organizations.getOrganizationActionBatches(org_id)
+        logging.debug(f"Final action batches for org {org_id} after cleanup: {final_action_batches}")
