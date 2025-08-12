@@ -27,4 +27,29 @@ for org in organizations:
     org_networks[org_id] = networks
     logging.debug(f"Networks for organization {org['name']}: {networks}")
 
-# Now org_networks is a dict keyed by org id, with organization and networks info for batching and later use
+
+# For each organization, create action batches for every 100 networks to update /networks/{networkId}/settings
+for org_id, networks in org_networks.items():
+    # Chunk networks into batches of 100
+    for i in range(0, len(networks), 100):
+        batch = networks[i:i+100]
+        actions = []
+        for net in batch:
+            network_id = net['id']
+            # Example action to update network settings (customize as needed)
+            actions.append({
+                "resource": f"/networks/{network_id}/settings",
+                "operation": "update",
+                "body": {
+                    "localStatusPageEnabled": True,
+                    "remoteStatusPageEnabled": True,
+                    "localStatusPage": {
+                        "authentication": {
+                            "enabled": ,
+                            "username": "admin",
+                            "password": ""
+                        }
+                    }
+                }
+            })
+
